@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Daniel Muravtsev](https://up.htmlacademy.ru/javascript/31/user/1152991).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Изосимов](https://htmlacademy.ru/profile/id605037).
 
 ---
 
