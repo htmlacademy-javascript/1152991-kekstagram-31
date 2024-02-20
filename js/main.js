@@ -21,36 +21,13 @@ const MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const createId = () => {
-  let id = 0;
-
-  return function () {
-    id += 1;
-    return id;
-  };
+const createId = (id) => function () {
+  return id++;
 };
 
-const createIdPhoto = () => {
-  let id = 0;
-
-  return function () {
-    id += 1;
-    return id;
-  };
-};
-
-const createIdMessage = () => {
-  let id = 0;
-
-  return function () {
-    id += 1;
-    return id;
-  };
-};
-
-const generateId = createId();
-const generateIdPhoto = createIdPhoto();
-const generateIdMessage = createIdMessage();
+const generateId = createId(0);
+const generateIdPhoto = createId(0);
+const generateIdMessage = createId(0);
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -69,7 +46,7 @@ const createUser = () => (
     description: 'Some kind of text',
     likes: getRandomInt(15, 200),
     comments: [{
-      id: generateIdMessage(),
+      id: getRandomInt(generateIdMessage(), 200),
       avatar: `'img/avatar-${getRandomInt(1, 6)}.svg'`,
       message: getRandomMessage(),
       name: getRandomName(),
@@ -78,4 +55,5 @@ const createUser = () => (
 );
 createUser();
 
-//const similarUser = Array.from({length: 4}, createUser);
+//const similarUser = Array.from({length: 25}, createUser);
+//console.log(similarUser);
