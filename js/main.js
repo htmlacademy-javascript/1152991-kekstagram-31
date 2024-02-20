@@ -1,6 +1,6 @@
 const NAMES = ['Абобус', 'Франческо', 'Иван', 'Хуан', 'Себастьян', 'Мария', 'Вашингтон'];
 
-const MESSAGE = [
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -9,7 +9,7 @@ const MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Сомнительно, но окэй.',
   'Мы любим такие формы, форматы.',
   'Я это не понимаю, мне это не интересно, вот мне лично это не интересно, за других сказать не могу.',
@@ -32,8 +32,7 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-
-const getRandomMessage = () => (Math.round(Math.random()) === 0 ? MESSAGE[Math.round(Math.abs(Math.random() * MESSAGE.length - 1))] : `${MESSAGE[Math.round(Math.abs(Math.random() * MESSAGE.length - 1))]} ${MESSAGE[Math.round(Math.abs(Math.random() * MESSAGE.length - 1))]}`);
+const getRandomMessage = () => (Math.round(Math.random()) === 0 ? MESSAGES[Math.round(Math.abs(Math.random() * MESSAGES.length - 1))] : `${MESSAGES[Math.round(Math.abs(Math.random() * MESSAGES.length - 1))]} ${MESSAGES[Math.round(Math.abs(Math.random() * MESSAGES.length - 1))]}`);
 
 const getRandom = (elment) => elment[Math.round(Math.abs(Math.random() * elment.length - 1))];
 
@@ -41,7 +40,7 @@ const createUser = () => (
   [{
     id: generateId(),
     url: `photos/${generateIdPhoto()}.jpg`,
-    description: getRandom(DESCRIPTION),
+    description: getRandom(DESCRIPTIONS),
     likes: getRandomInt(15, 200),
     comments: [{
       id: getRandomInt(generateIdMessage(), 200),
@@ -51,6 +50,8 @@ const createUser = () => (
     }]
   }]
 );
+
+// Привет, Андрей. Эту строку нужно будет удалить при проверке. Я её добавил, чтобы eslint не ворчал)
 createUser();
 
 //const similarUser = Array.from({length: 25}, createUser);
