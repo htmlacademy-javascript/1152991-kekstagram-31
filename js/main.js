@@ -1,16 +1,4 @@
-const NAMES = [
-  'Абобус',
-  'Франческо',
-  'Иван',
-  'Хуан',
-  'Себастьян',
-  'Мария',
-  'Кристоф',
-  'Виктор',
-  'Юлия',
-  'Люпита',
-  'Вашингтон',
-];
+const NAMES = ['Абобус', 'Франческо', 'Иван', 'Хуан', 'Себастьян', 'Мария', 'Вашингтон'];
 
 const MESSAGE = [
   'Всё отлично!',
@@ -21,8 +9,17 @@ const MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+const DESCRIPTION = [
+  'Сомнительно, но окэй.',
+  'Мы любим такие формы, форматы.',
+  'Я это не понимаю, мне это не интересно, вот мне лично это не интересно, за других сказать не могу.',
+  'Круто! Да этож круто!',
+  'Это печально.',
+  'У кого-то это щелкает, а у кого-то не щелкает...'
+];
+
 const createId = (id) => function () {
-  return id++;
+  return ++id;
 };
 
 const generateId = createId(0);
@@ -35,21 +32,22 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+
 const getRandomMessage = () => (Math.round(Math.random()) === 0 ? MESSAGE[Math.round(Math.abs(Math.random() * MESSAGE.length - 1))] : `${MESSAGE[Math.round(Math.abs(Math.random() * MESSAGE.length - 1))]} ${MESSAGE[Math.round(Math.abs(Math.random() * MESSAGE.length - 1))]}`);
 
-const getRandomName = () => NAMES[Math.round(Math.abs(Math.random() * NAMES.length - 1))];
+const getRandom = (elment) => elment[Math.round(Math.abs(Math.random() * elment.length - 1))];
 
 const createUser = () => (
   [{
     id: generateId(),
     url: `photos/${generateIdPhoto()}.jpg`,
-    description: 'Some kind of text',
+    description: getRandom(DESCRIPTION),
     likes: getRandomInt(15, 200),
     comments: [{
       id: getRandomInt(generateIdMessage(), 200),
       avatar: `'img/avatar-${getRandomInt(1, 6)}.svg'`,
       message: getRandomMessage(),
-      name: getRandomName(),
+      name: getRandom(NAMES),
     }]
   }]
 );
