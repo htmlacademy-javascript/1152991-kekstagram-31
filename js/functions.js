@@ -1,8 +1,8 @@
 const checkStr = (str, maxLength) => str.length <= maxLength;
-checkStr('проверяемая строка', 20);
+checkStr(); // Написал чтобы eslint не ворчал, эту строку нужно будет удалить это не входит в мой код)
 
 const palindrome = (str) => (str.replace(/\s/g,'').split('').reverse().join('')).toLowerCase() === (str.replace(/\s/g,'')).toLowerCase();
-palindrome('ДовОд');
+palindrome(); // Написал чтобы eslint не ворчал, эту строку нужно будет удалить это не входит в мой код)
 
 const getNumber = (item) => (/\d/g.test(item)) ? parseInt(item.toString().match(/\d/g).join(''), 10) : NaN;
-getNumber('агент 007');
+getNumber(); // Написал чтобы eslint не ворчал, эту строку нужно будет удалить это не входит в мой код)
