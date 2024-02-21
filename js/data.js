@@ -21,20 +21,19 @@ const DESCRIPTIONS = [
 ];
 
 const createUser = () => (
-  [{
+  {
     id: generateId(),
     url: `photos/${generateIdPhoto()}.jpg`,
     description: getRandom(DESCRIPTIONS),
     likes: getRandomInt(15, 200),
-    comments: [{
+    comments: Array.from({length: getRandomInt(0, 30)}, () => ({
       id: getRandomInt(generateIdMessage(), 200),
       avatar: `'img/avatar-${getRandomInt(1, 6)}.svg'`,
       message: getRandomMessage(MESSAGES),
       name: getRandom(NAMES),
-    }]
-  }]
+    }))
+  }
 );
-
 
 const similarUser = Array.from({length: 25}, createUser);
 
