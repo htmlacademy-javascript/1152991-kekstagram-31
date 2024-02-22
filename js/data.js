@@ -35,6 +35,6 @@ const createUser = () => (
   }
 );
 
-const similarUser = Array.from({length: 25}, createUser);
+const similarUser = () => Array.from({length: 25}, createUser);
 
 export {similarUser};
