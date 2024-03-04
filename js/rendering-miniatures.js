@@ -19,3 +19,5 @@ users.forEach(({url, description, likes, comments}) => {
 });
 
 listPictures.appendChild(similarFragment);
+
+export {users};
