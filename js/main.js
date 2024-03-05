@@ -1,4 +1,5 @@
 import './util.js';
 import './data.js';
-import './rendering-miniatures.js';
+import './render-miniatures.js';
 import './user-modal.js';
+import './render-comments.js';

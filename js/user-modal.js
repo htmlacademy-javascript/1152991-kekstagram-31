@@ -1,7 +1,9 @@
-import {users} from './rendering-miniatures';
+import { users } from './render-miniatures.js';
+import {showComments, closeComments} from './render-comments.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const mainPicture = document.querySelector('.big-picture');
+const mainPictureCancel = mainPicture.querySelector('.big-picture__cancel');
 const mainPictureImg = mainPicture.querySelector('.big-picture__img img');
 const mainlikes = mainPicture.querySelector('.likes-count');
 const mainShowComments = mainPicture.querySelector('.social__comment-shown-count');
@@ -11,16 +13,11 @@ const pictures = document.querySelectorAll('.picture');
 
 const mainSocialComments = document.querySelector('.social__comments');
 const socialComments = mainSocialComments.querySelectorAll('.social__comment');
-const socialPicture = mainSocialComments.querySelector('.social__picture');
-const socialText = mainSocialComments.querySelector('.social__text');
 
 const socialCommentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 socialCommentCount.classList.add('hidden');
 commentsLoader.classList.add('hidden');
-
-const mainPictureCancel = mainPicture.querySelector('.big-picture__cancel');
-
 
 const openModal = (pictureIndex) => {
   mainPicture.classList.remove('hidden');
@@ -33,17 +30,14 @@ const openModal = (pictureIndex) => {
       mainShowComments.textContent = socialComments.length;
       mainTotalComments.textContent = user.comments.length;
       socialCaption.textContent = user.description;
-
-      socialPicture.src = user.comments[0].avatar;
-      socialPicture.alt = user.comments[0].name;
-      socialText.textContent = user.comments[0].message;
     }
-
   });
 };
 
 const closeModal = () => {
   mainPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  closeComments();
 };
 
 picturesContainer.addEventListener('click', (evt) => {
@@ -53,6 +47,7 @@ picturesContainer.addEventListener('click', (evt) => {
     pictures.forEach((picture, i) => {
       if (target === picture) {
         openModal(i);
+        showComments(i);
       }
     });
   }
