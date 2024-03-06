@@ -1,4 +1,4 @@
-import {similarUser} from './data.js';
+import { similarUser } from './data.js';
 
 const listPictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -16,6 +16,9 @@ users.forEach(({url, description, likes, comments}) => {
   userElement.querySelector('.picture__comments').textContent = comments.length;
 
   similarFragment.appendChild(userElement);
+
 });
 
 listPictures.appendChild(similarFragment);
+
+export { users };
