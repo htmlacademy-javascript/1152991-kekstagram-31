@@ -16,7 +16,6 @@ users.forEach(({url, description, likes, comments}) => {
   userElement.querySelector('.picture__comments').textContent = comments.length;
 
   similarFragment.appendChild(userElement);
-
 });
 
 listPictures.appendChild(similarFragment);
