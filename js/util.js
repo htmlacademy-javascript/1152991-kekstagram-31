@@ -24,4 +24,17 @@ const getRandomMessage = (message) => {
 
 const getRandom = (element) => element[Math.round(Math.abs(Math.random() * element.length - 1))];
 
-export {generateId, generateIdPhoto, generateIdMessage, getRandomInt,getRandomMessage, getRandom};
+const closeModal = (element) => {
+  element.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+};
+
+export {
+  generateId,
+  generateIdPhoto,
+  generateIdMessage,
+  getRandomInt,
+  getRandomMessage,
+  getRandom,
+  closeModal
+};

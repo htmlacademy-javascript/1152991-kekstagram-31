@@ -1,29 +1,33 @@
-import {renderComments, closeComments} from './render-comments.js';
+import { renderComments } from './render-comments.js';
 import { users } from './render-miniatures.js';
+import { closeModal } from './util.js';
 
-const mainPicture = document.querySelector('.big-picture');
-const mainPictureCancel = mainPicture.querySelector('.big-picture__cancel');
-const mainPictureImg = mainPicture.querySelector('.big-picture__img img');
-const mainlikes = mainPicture.querySelector('.likes-count');
+const modal = document.querySelector('.big-picture');
+const modalCancel = modal.querySelector('.big-picture__cancel');
+const mainPicture = modal.querySelector('.big-picture__img img');
+const likes = modal.querySelector('.likes-count');
 
-const socialCaption = mainPicture.querySelector('.social__caption');
+const socialCaption = modal.querySelector('.social__caption');
 const pictures = document.querySelectorAll('.picture');
 
+const onDocumentKeydown = (evt) => {
+  if (evt.code === 'Escape') {
+    closeModal(modal);
+    document.removeEventListener(onDocumentKeydown);
+  }
+};
+
 const openModal = (user) => {
-  mainPicture.classList.remove('hidden');
+  modal.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  mainPictureImg.src = user.url;
-  mainlikes.textContent = user.likes;
+  mainPicture.src = user.url;
+  likes.textContent = user.likes;
   socialCaption.textContent = user.description;
 
   renderComments(user.comments);
-};
 
-const closeModal = () => {
-  mainPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  closeComments();
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 const pictureClickHandler = (evt, i) => {
@@ -36,12 +40,8 @@ const pictureClickHandler = (evt, i) => {
 
 pictures.forEach((picture, i) => picture.addEventListener('click', (evt) => pictureClickHandler(evt, i)));
 
-mainPictureCancel.addEventListener('click', () => {
-  closeModal();
+modalCancel.addEventListener('click', () => {
+  closeModal(modal);
+  document.removeEventListener('keydown', onDocumentKeydown);
 });
 
-document.addEventListener('keydown', (evt) => {
-  if (evt.code === 'Escape') {
-    closeModal();
-  }
-});

@@ -1,19 +1,21 @@
 const COMMENTS_SHOW_COUNT = 5;
 
-const lisComments = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
-const currentCommentsCount = document.querySelector('.social__comment-shown-count');
-const TotalComments = document.querySelector('.social__comment-total-count');
+const currentComments = document.querySelector('.social__comment-shown-count');
+const totalComments = document.querySelector('.social__comment-total-count');
+const listComments = document.querySelector('.social__comments');
 const commentsLoader = document.querySelector('.comments-loader');
 
+const totalAmountComments = document.querySelector('.social__comment-count');
+
 const renderComments = (comments, idx = 0, cb) => {
+  listComments.innerHTML = '';
   const commentsLength = comments.length;
+
   const visibleCommentsCount = COMMENTS_SHOW_COUNT + (COMMENTS_SHOW_COUNT * idx);
   const resolvedComments = comments.slice(0, visibleCommentsCount);
 
   commentsLoader.removeEventListener('click', cb);
-
-  lisComments.innerHTML = '';
 
   for (const item of resolvedComments) {
     const comment = commentTemplate.cloneNode(true);
@@ -21,11 +23,21 @@ const renderComments = (comments, idx = 0, cb) => {
     comment.querySelector('.social__picture').alt = item.name;
     comment.querySelector('.social__text').textContent = item.message;
 
-    currentCommentsCount.textContent = resolvedComments.length;
-    lisComments.append(comment);
+    currentComments.textContent = resolvedComments.length;
+
+    listComments.append(comment);
   }
 
-  TotalComments.textContent = commentsLength;
+  totalComments.textContent = commentsLength;
+
+  if (commentsLength <= COMMENTS_SHOW_COUNT) {
+    totalAmountComments.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
+    return;
+  } else {
+    totalAmountComments.classList.remove('hidden');
+    commentsLoader.classList.remove('hidden');
+  }
 
   if (commentsLength < COMMENTS_SHOW_COUNT || commentsLength <= visibleCommentsCount) {
     commentsLoader.classList.add('hidden');
@@ -40,9 +52,4 @@ const renderComments = (comments, idx = 0, cb) => {
   commentsLoader.addEventListener('click', clickHandler);
 };
 
-const closeComments = () => {
-  const comments = document.querySelectorAll('.social__comment');
-  comments.forEach((item) => item.remove());
-};
-
-export { renderComments, closeComments };
+export { renderComments };
