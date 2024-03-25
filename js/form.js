@@ -8,6 +8,10 @@ const hashtagInput = document.querySelector('.text__hashtags');
 const textarea = document.querySelector('.text__description');
 const effectItems = document.querySelectorAll('.effects__radio');
 
+const stylePicture = document.querySelector('.img-upload__preview img');
+const sliderElement = document.querySelector('.img-upload__effect-level');
+const checkBoxes = document.querySelectorAll('.effects__radio');
+
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'form--invalid',
@@ -89,6 +93,14 @@ const onDocumentKeydownEscape = (evt) => {
       input.value = '0';
     });
 
+    checkBoxes.forEach((checkBox) => {
+      checkBox.checked = false;
+    });
+    checkBoxes[0].checked = true;
+
+    sliderElement.classList.add('hidden');
+    stylePicture.style.filter = 'grayscale(0)';
+
     pristine.reset(hashtagInput);
     closeModal(imgOverlay);
     document.removeEventListener('keydown', onDocumentKeydownEscape);
@@ -109,6 +121,9 @@ const onCancelClick = () => {
   effectItems.forEach((input) => {
     input.value = '0';
   });
+
+  sliderElement.classList.add('hidden');
+  stylePicture.style.filter = 'grayscale(0)';
 
   pristine.reset(hashtagInput);
   closeModal(imgOverlay);
