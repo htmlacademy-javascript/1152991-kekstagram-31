@@ -1,8 +1,18 @@
 import './util.js';
-import './data.js';
-import './render-miniatures.js';
+import { renderPublications } from './render-miniatures.js';
 import './user-modal.js';
 import './render-comments.js';
 import './form.js';
-import './slider.js';
+import './photo-editor.js';
 import './scale-picture.js';
+import { getData } from './api.js';
+import './notification-form.js';
+import './validator.js';
+
+const stack = [];
+
+getData.then((miniatures) => {
+  renderPublications(miniatures);
+});
+
+export { stack };

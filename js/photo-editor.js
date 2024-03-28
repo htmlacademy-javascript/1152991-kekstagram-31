@@ -1,6 +1,6 @@
 const sliderElement = document.querySelector('.img-upload__effect-level');
-const stylePicture = document.querySelector('.img-upload__preview img');
-const effectsItems = document.querySelectorAll('.effects__item');
+const mainPicture = document.querySelector('.img-upload__preview img');
+const listEffects = document.querySelectorAll('.effects__item');
 
 const effectChrome = document.querySelector('#effect-chrome');
 const effectNone = document.querySelector('#effect-none');
@@ -15,19 +15,19 @@ sliderElement.classList.add('hidden');
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
-    max: 10,
+    max: 1,
   },
-  start: 10,
+  start: 0.1,
   step: 0,
   connect: 'lower',
 });
 
-const effects = (target) => {
+const applyingEffects = (target) => {
   switch(target) {
     case effectNone:
       sliderElement.classList.add('hidden');
-      stylePicture.style.filter = 'grayscale(0)';
-      effectValue.value = 'none';
+      mainPicture.style.filter = 'grayscale(0)';
+      effectValue.value = '';
       break;
 
     case effectChrome:
@@ -44,7 +44,7 @@ const effects = (target) => {
 
       sliderElement.noUiSlider.on('update', () => {
         const value = sliderElement.noUiSlider.get();
-        stylePicture.style.filter = `grayscale(${value})`;
+        mainPicture.style.filter = `grayscale(${value})`;
         effectValue.value = value;
       });
       break;
@@ -63,8 +63,8 @@ const effects = (target) => {
 
       sliderElement.noUiSlider.on('update', () => {
         const value = sliderElement.noUiSlider.get();
+        mainPicture.style.filter = `sepia(${value})`;
         effectValue.value = value;
-        stylePicture.style.filter = `sepia(${value})`;
       });
       break;
 
@@ -82,8 +82,8 @@ const effects = (target) => {
 
       sliderElement.noUiSlider.on('update', () => {
         const value = sliderElement.noUiSlider.get();
+        mainPicture.style.filter = `invert(${value}%)`;
         effectValue.value = value;
-        stylePicture.style.filter = `invert(${value}%)`;
       });
       break;
 
@@ -101,8 +101,8 @@ const effects = (target) => {
 
       sliderElement.noUiSlider.on('update', () => {
         const value = sliderElement.noUiSlider.get();
+        mainPicture.style.filter = `blur(${value}px)`;
         effectValue.value = value;
-        stylePicture.style.filter = `blur(${value}px)`;
       });
       break;
 
@@ -120,17 +120,17 @@ const effects = (target) => {
 
       sliderElement.noUiSlider.on('update', () => {
         const value = sliderElement.noUiSlider.get();
+        mainPicture.style.filter = `brightness(${value})`;
         effectValue.value = value;
-        stylePicture.style.filter = `brightness(${value})`;
       });
       break;
   }
 };
 
-effectsItems.forEach((effectsItem) => {
+listEffects.forEach((effectsItem) => {
   effectsItem.addEventListener('click', (evt) => {
     if (evt.target.tagName === 'INPUT') {
-      effects(evt.target);
+      applyingEffects(evt.target);
     }
   });
 });
