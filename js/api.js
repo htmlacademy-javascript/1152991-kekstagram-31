@@ -3,6 +3,12 @@ const templateDataError = document.querySelector('#data-error').content.querySel
 const templateSuccess = document.querySelector('#success').content.querySelector('.success');
 const templateError = document.querySelector('#error').content.querySelector('.error');
 
+const submitButton = document.querySelector('.img-upload__submit');
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+};
+
 const getData = fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
   .then((response) => response.json())
   .catch(() => {
@@ -29,7 +35,7 @@ const sendData = (onSuccess, formData) => {
   })
     .catch(() => {
       document.body.append(templateError);
-    });
+    }).finally(unblockSubmitButton);
 };
 
 export {getData, sendData};

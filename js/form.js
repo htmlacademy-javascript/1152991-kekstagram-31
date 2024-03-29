@@ -1,7 +1,7 @@
 import { closeModal } from './util.js';
 import { sendData } from './api.js';
-import { pristine }from './validator.js';
-import { stack } from './main.js';
+import { pristine } from './validator.js';
+import { onHandlerNotification } from './notification-form.js';
 
 const form = document.querySelector('.img-upload__form');
 
@@ -57,26 +57,13 @@ form.addEventListener('change', () => {
   imgOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  stack.push();
   document.addEventListener('keydown', onDocumentKeydownEscape);
 });
 
-
 closeBtn.addEventListener('click', closeForm);
-
-const SubmitButtonText = {
-  IDLE: 'Сохранить',
-  SENDING: 'Сохраняю...'
-};
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
-};
-
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
 };
 
 const setUserFormSubmit = (onSuccess) => {
@@ -89,9 +76,11 @@ const setUserFormSubmit = (onSuccess) => {
 
     if (isValid) {
       blockSubmitButton();
-      sendData(new FormData(evt.target))
-        .then(onSuccess)
-        .finally(unblockSubmitButton);
+      onHandlerNotification();
+      sendData(
+        onSuccess,
+        new FormData(evt.target),
+      );
     }
   });
 };

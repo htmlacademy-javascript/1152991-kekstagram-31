@@ -4,11 +4,11 @@ const successButton = templateSuccess.querySelector('.success__button');
 const templateError = document.querySelector('#error').content.querySelector('.error');
 const errorButton = templateError.querySelector('.error__button');
 
-const onDocumentKeydownEscape = (evt) => {
-  evt.stopPropagation();
+const onDocumentKeydownEscape = (evt, cb) => {
   if (evt.code === 'Escape') {
     templateSuccess.remove();
     templateError.remove();
+    document.body.removeEventListener('keydown', cb);
   }
 };
 
@@ -21,23 +21,17 @@ const closeNotification = (evt) => {
     evt.target === existElement ||
     evt.target === successButton ||
     evt.target === errorButton ||
-    onDocumentKeydownEscape(evt)
+    onDocumentKeydownEscape(evt, closeNotification)
   ) {
     existElement.remove();
-    document.body.addEventListener('click', closeNotification);
-    document.body.addEventListener('keydown', closeNotification);
+    document.body.removeEventListener('click', closeNotification);
+    document.body.removeEventListener('keydown', closeNotification);
   }
 };
 
-const appendNotification = () => {
+const onHandlerNotification = () => {
   document.body.addEventListener('click', closeNotification);
   document.body.addEventListener('keydown', closeNotification);
 };
 
-errorButton.addEventListener('click', () => {
-  appendNotification(templateError);
-});
-
-successButton.addEventListener('click', () => {
-  appendNotification(templateSuccess);
-});
+export { onHandlerNotification };

@@ -9,10 +9,6 @@ import { getData } from './api.js';
 import './notification-form.js';
 import './validator.js';
 
-const stack = [];
-
 getData.then((miniatures) => {
   renderPublications(miniatures);
 });
-
-export { stack };
