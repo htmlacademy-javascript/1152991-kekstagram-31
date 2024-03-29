@@ -1,23 +1,25 @@
-import { similarUser } from './data.js';
+import { openModal } from './user-modal.js';
 
 const listPictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const users = similarUser(25);
+const renderPublications = (miniatures) => {
+  const similarFragment = document.createDocumentFragment();
 
-const similarFragment = document.createDocumentFragment();
+  miniatures.forEach((miniature) => {
+    const userElement = pictureTemplate.cloneNode(true);
 
-users.forEach(({url, description, likes, comments}) => {
-  const userElement = pictureTemplate.cloneNode(true);
+    userElement.querySelector('.picture__img').src = miniature.url;
+    userElement.querySelector('.picture__img').alt = miniature.description;
+    userElement.querySelector('.picture__likes').textContent = miniature.likes;
+    userElement.querySelector('.picture__comments').textContent = miniature.comments.length;
 
-  userElement.querySelector('.picture__img').src = url;
-  userElement.querySelector('.picture__img').alt = description;
-  userElement.querySelector('.picture__likes').textContent = likes;
-  userElement.querySelector('.picture__comments').textContent = comments.length;
+    similarFragment.appendChild(userElement);
 
-  similarFragment.appendChild(userElement);
-});
+    userElement.addEventListener('click', (evt) => openModal(evt, miniature));
+  });
 
-listPictures.appendChild(similarFragment);
+  listPictures.appendChild(similarFragment);
+};
 
-export { users };
+export { renderPublications };
