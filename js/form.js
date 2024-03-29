@@ -12,6 +12,8 @@ const textarea = imgOverlay.querySelector('.text__description');
 const mainPicture = imgOverlay.querySelector('.img-upload__preview img');
 const sliderElement = imgOverlay.querySelector('.img-upload__effect-level');
 const radios = imgOverlay.querySelectorAll('.effects__radio');
+const submitButton = imgOverlay.querySelector('.img-upload__submit');
+
 const scaleValue = document.querySelector('.scale__control--value');
 
 const templateSuccess = document.querySelector('#success').content.querySelector('.success');
@@ -34,15 +36,19 @@ const clearForm = () => {
   mainPicture.style.transform = 'scale(1)';
 };
 
+const closeForm = () => {
+  clearForm();
+  pristine.reset(hashtagInput);
+  closeModal(imgOverlay);
+};
+
 const onDocumentKeydownEscape = (evt) => {
   if (evt.code === 'Escape') {
     if (evt.target === hashtagInput || evt.target === textarea) {
       return;
     }
 
-    clearForm();
-    pristine.reset(hashtagInput);
-    closeModal(imgOverlay);
+    closeForm();
     document.removeEventListener('keydown', onDocumentKeydownEscape);
   }
 };
@@ -51,17 +57,27 @@ form.addEventListener('change', () => {
   imgOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  stack.push(imgOverlay);
+  stack.push();
   document.addEventListener('keydown', onDocumentKeydownEscape);
 });
 
-const closeForm = () => {
-  clearForm();
-  pristine.reset(hashtagInput);
-  closeModal(imgOverlay);
-};
 
 closeBtn.addEventListener('click', closeForm);
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
 
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
@@ -72,10 +88,10 @@ const setUserFormSubmit = (onSuccess) => {
     const isValid = pristine.validate(hashtagInput);
 
     if (isValid) {
-      sendData(
-        onSuccess,
-        new FormData(evt.target)
-      );
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .finally(unblockSubmitButton);
     }
   });
 };

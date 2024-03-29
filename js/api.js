@@ -14,7 +14,7 @@ const getData = fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
 
 const sendData = (onSuccess, formData) => {
   fetch(
-    'https://31.javascript.htmlacademy.pro/kekstagra',
+    'https://31.javascript.htmlacademy.pro/kekstagram',
     {
       method: 'POST',
       body: formData,
