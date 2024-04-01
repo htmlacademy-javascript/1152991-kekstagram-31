@@ -3,7 +3,7 @@ import { openModal } from './user-modal.js';
 const listPictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const renderPublications = (miniatures) => {
+const renderMiniatures = (miniatures) => {
   const similarFragment = document.createDocumentFragment();
 
   miniatures.forEach((miniature) => {
@@ -22,4 +22,4 @@ const renderPublications = (miniatures) => {
   listPictures.appendChild(similarFragment);
 };
 
-export { renderPublications };
+export { renderMiniatures };
