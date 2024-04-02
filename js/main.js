@@ -10,6 +10,7 @@ import './notification-form.js';
 import './validator.js';
 import './render-filter-publications.js';
 import { configFilter } from './filter.js';
+import './const.js';
 
 getData.then((miniatures) => {
   renderMiniatures(miniatures);

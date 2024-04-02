@@ -2,6 +2,7 @@ import { closeModal } from './util.js';
 import { sendData } from './api.js';
 import { pristine } from './validator.js';
 import { onHandlerNotification } from './notification-form.js';
+//import { onEffectRadioBtnClick, resetFilter } from './photo-editor.js';
 
 const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif', '.jfif'];
 
@@ -78,6 +79,7 @@ form.addEventListener('change', () => {
   document.body.classList.add('modal-open');
 
   onFileInputChange();
+  //onEffectRadioBtnClick();
   document.addEventListener('keydown', onDocumentKeydownEscape);
 });
 
