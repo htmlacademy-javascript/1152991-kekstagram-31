@@ -15,7 +15,6 @@ getData()
   .then((miniatures) => {
     configFilter(miniatures);
     renderMiniatures(miniatures);
-
   })
   .catch(() => {
     showError();
