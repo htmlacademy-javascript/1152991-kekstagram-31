@@ -1,4 +1,5 @@
 const form = document.querySelector('.img-upload__form');
+const imageDescription = form.querySelector('.text__description');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -9,12 +10,21 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
+const validateDescription = (value) => value.length <= 140;
+
+pristine.addValidator(
+  imageDescription,
+  validateDescription,
+  'Длина комментария не может превышать 140 символов.'
+);
+
 const validateHashtag = (value) => {
   if (value.length === 0) {
     return true;
   }
 
-  const hashtags = value.toLowerCase().trim().split(' ');
+  const hashtags = (value.toLowerCase().trim().split(' '))
+    .filter((hashtag) => hashtag !== '');
 
   if (hashtags.length > 5) {
     return false;

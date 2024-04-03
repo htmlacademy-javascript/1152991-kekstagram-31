@@ -14,5 +14,5 @@ const debounce = (callback, timeoutDelay = 500) => {
 
 export {
   closeModal,
-  debounce
+  debounce,
 };

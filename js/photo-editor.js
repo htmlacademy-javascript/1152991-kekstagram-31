@@ -1,6 +1,8 @@
-const sliderElement = document.querySelector('.img-upload__effect-level');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 const mainPicture = document.querySelector('.img-upload__preview img');
 const listEffects = document.querySelectorAll('.effects__item');
+
+const slider = document.querySelector('.effect-level__slider');
 
 const effectChrome = document.querySelector('#effect-chrome');
 const effectNone = document.querySelector('#effect-none');
@@ -10,9 +12,9 @@ const effectPhobos = document.querySelector('#effect-phobos');
 const effectHeat = document.querySelector('#effect-heat');
 const effectValue = document.querySelector('.effect-level__value');
 
-sliderElement.classList.add('hidden');
+sliderContainer.classList.add('hidden');
 
-noUiSlider.create(sliderElement, {
+noUiSlider.create(slider, {
   range: {
     min: 0,
     max: 1,
@@ -23,17 +25,17 @@ noUiSlider.create(sliderElement, {
 });
 
 const applyingEffects = (target) => {
-  switch(target) {
+  switch (target) {
     case effectNone:
-      sliderElement.classList.add('hidden');
-      mainPicture.style.filter = 'grayscale(0)';
+      sliderContainer.classList.add('hidden');
+      mainPicture.style.filter = 'none';
       effectValue.value = '';
       break;
 
     case effectChrome:
-      sliderElement.classList.remove('hidden');
+      sliderContainer.classList.remove('hidden');
 
-      sliderElement.noUiSlider.updateOptions({
+      slider.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 1,
@@ -42,17 +44,17 @@ const applyingEffects = (target) => {
         step: 0.1,
       });
 
-      sliderElement.noUiSlider.on('update', () => {
-        const value = sliderElement.noUiSlider.get();
+      slider.noUiSlider.on('update', () => {
+        const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `grayscale(${value})`;
-        effectValue.value = value;
+        effectValue.value = (value >= 1) ? 1 : value.toFixed(1);
       });
       break;
 
     case effectSepia:
-      sliderElement.classList.remove('hidden');
+      sliderContainer.classList.remove('hidden');
 
-      sliderElement.noUiSlider.updateOptions({
+      slider.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 1,
@@ -61,17 +63,17 @@ const applyingEffects = (target) => {
         step: 0.1,
       });
 
-      sliderElement.noUiSlider.on('update', () => {
-        const value = sliderElement.noUiSlider.get();
+      slider.noUiSlider.on('update', () => {
+        const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `sepia(${value})`;
-        effectValue.value = value;
+        effectValue.value = (value >= 1) ? 1 : value.toFixed(1);
       });
       break;
 
     case effectMarvin:
-      sliderElement.classList.remove('hidden');
+      sliderContainer.classList.remove('hidden');
 
-      sliderElement.noUiSlider.updateOptions({
+      slider.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 100,
@@ -80,17 +82,17 @@ const applyingEffects = (target) => {
         step: 1,
       });
 
-      sliderElement.noUiSlider.on('update', () => {
-        const value = sliderElement.noUiSlider.get();
+      slider.noUiSlider.on('update', () => {
+        const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `invert(${value}%)`;
-        effectValue.value = value;
+        effectValue.value = value.toFixed(0);
       });
       break;
 
     case effectPhobos:
-      sliderElement.classList.remove('hidden');
+      sliderContainer.classList.remove('hidden');
 
-      sliderElement.noUiSlider.updateOptions({
+      slider.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 3,
@@ -99,17 +101,17 @@ const applyingEffects = (target) => {
         step: 0.1,
       });
 
-      sliderElement.noUiSlider.on('update', () => {
-        const value = sliderElement.noUiSlider.get();
+      slider.noUiSlider.on('update', () => {
+        const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `blur(${value}px)`;
-        effectValue.value = value;
+        effectValue.value = value.toFixed(1);
       });
       break;
 
     case effectHeat:
-      sliderElement.classList.remove('hidden');
+      sliderContainer.classList.remove('hidden');
 
-      sliderElement.noUiSlider.updateOptions({
+      slider.noUiSlider.updateOptions({
         range: {
           min: 1,
           max: 3,
@@ -118,10 +120,10 @@ const applyingEffects = (target) => {
         step: 0.1,
       });
 
-      sliderElement.noUiSlider.on('update', () => {
-        const value = sliderElement.noUiSlider.get();
+      slider.noUiSlider.on('update', () => {
+        const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `brightness(${value})`;
-        effectValue.value = value;
+        effectValue.value = value.toFixed(1);
       });
       break;
   }
