@@ -1,8 +1,7 @@
 import { closeModal } from './util.js';
 import { sendData } from './api.js';
 import { pristine } from './validator.js';
-import { onHandlerNotification } from './notification-form.js';
-//import { onEffectRadioBtnClick, resetFilter } from './photo-editor.js';
+import { appendNotification } from './notification-form.js';
 
 const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif', '.jfif'];
 
@@ -79,34 +78,37 @@ form.addEventListener('change', () => {
   document.body.classList.add('modal-open');
 
   onFileInputChange();
-  //onEffectRadioBtnClick();
   document.addEventListener('keydown', onDocumentKeydownEscape);
 });
 
 closeBtn.addEventListener('click', closeForm);
 
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-};
 
-
-const setUserFormSubmit = (onSuccess) => {
+const setUserFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     templateSuccess.classList.remove('hidden');
     templateError.classList.remove('hidden');
 
-    const isValid = pristine.validate(hashtagInput);
+    const isValidHashtag = pristine.validate(hashtagInput);
+    const isValidTextarea = pristine.validate(textarea);
 
-    if (isValid) {
-      blockSubmitButton();
-      onHandlerNotification();
-      sendData(
-        onSuccess,
-        new FormData(evt.target),
-      );
+    if (isValidHashtag && isValidTextarea) {
+      //onHandlerNotification();
+      submitButton.disabled = true;
+      sendData(new FormData(evt.target))
+        .then(() => {
+          appendNotification(templateSuccess);
+          closeForm();
+        })
+        .catch(() => {
+          appendNotification(templateError);
+        })
+        .finally(() => {
+          submitButton.disabled = false;
+        });
     }
   });
 };
 
-setUserFormSubmit(closeForm);
+export { setUserFormSubmit };
