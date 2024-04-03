@@ -6,6 +6,10 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const renderMiniatures = (miniatures) => {
   const similarFragment = document.createDocumentFragment();
 
+  if (typeof miniatures === 'undefined') {
+    return;
+  }
+
   miniatures.forEach((miniature) => {
     const userElement = pictureTemplate.cloneNode(true);
 

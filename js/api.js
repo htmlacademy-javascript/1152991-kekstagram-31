@@ -1,41 +1,46 @@
-const templateDataError = document.querySelector('#data-error').content.querySelector('.data-error');
+const errorTemplate = document.querySelector('#data-error').content;
 
-const templateSuccess = document.querySelector('#success').content.querySelector('.success');
-const templateError = document.querySelector('#error').content.querySelector('.error');
-
-const submitButton = document.querySelector('.img-upload__submit');
-
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
 };
 
-const getData = fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
-  .then((response) => response.json())
-  .catch(() => {
-    document.body.append(templateDataError);
-    setTimeout(() => {
-      templateDataError.remove();
-    }, 5000);
-  });
-
-const sendData = (onSuccess, formData) => {
-  fetch(
-    'https://31.javascript.htmlacademy.pro/kekstagram',
-    {
-      method: 'POST',
-      body: formData,
-    },
-  ).then((response) => {
-    if (response.ok) {
-      onSuccess();
-      document.body.append(templateSuccess);
-    } else {
-      document.body.append(templateError);
-    }
-  })
-    .catch(() => {
-      document.body.append(templateError);
-    }).finally(unblockSubmitButton);
+const showError = () => {
+  const body = document.querySelector('body');
+  body.appendChild(errorTemplate);
+  setTimeout(() => {
+    const error = body.querySelector('.data-error');
+    body.removeChild(error);
+  }, 5000);
 };
 
-export {getData, sendData};
+const request = async (url, errorText, method = Method.GET, body = null) => {
+  const response = await fetch(url, { method, body });
+  if (!response.ok) {
+    throw new Error(errorText);
+  }
+  return response.json();
+};
+
+const sendData = async (requestBody) => request(
+  `${BASE_URL}${Route.SEND_DATA}`, ErrorText.SEND_DATA, Method.POST, requestBody
+);
+
+const getData = async () => request(
+  `${BASE_URL}${Route.GET_DATA}`, ErrorText.GET_DATA
+);
+
+export {
+  getData,
+  sendData,
+  showError
+};
